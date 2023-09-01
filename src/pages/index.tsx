@@ -3,6 +3,7 @@ import ProductSlider from "@/components/product/ProductSlider";
 import { GetStaticProps } from "next";
 import { gql } from "@apollo/client";
 import { client } from "@/lib/apollo";
+
 const PRODUCTS_QUERY = gql`
   query {
     products(first: 10) {
@@ -31,6 +32,7 @@ const PRODUCTS_QUERY = gql`
       }
     }
   }
+  
 `;
 export default function Home({ products }: any) {
   return (

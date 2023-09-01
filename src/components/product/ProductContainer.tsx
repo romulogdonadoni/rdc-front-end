@@ -5,15 +5,17 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 
 interface ProductContainerProps {
+  id: string;
   src: string;
   maxprice: string;
   minprice: string;
   title: string;
 }
 
-export default function ProductContainer({ src, maxprice, minprice, title }: ProductContainerProps) {
+export default function ProductContainer({ id, src, maxprice, minprice, title }: ProductContainerProps) {
+  id = id.split("/Product/")[1];
   return (
-    <Link href={`/product/${1}`}>
+    <Link href={`/product/${id}`}>
       <ProductContainerStyle className="keen-slider__slide number-slide1">
         <div>
           <Image src={src} height={256} width={256} alt="" quality={100} />

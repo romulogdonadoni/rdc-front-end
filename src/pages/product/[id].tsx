@@ -1,8 +1,11 @@
 import ProductSlider from "@/components/product/ProductSlider";
+import { client } from "@/lib/apollo";
 import { ProductStyle } from "@/styles/pages/product/ProductStyle";
+import { gql } from "@apollo/client";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 
-export default function Product() {
+export default function Product({ product }) {2
   return (
     <>
       <ProductStyle>
@@ -10,53 +13,78 @@ export default function Product() {
           <p>Home - Sala de Estar - Home - Home Equilibrio Friso JCM Movelaria</p>
         </div>
         <div className="title">
-          <h2>Home Equilíbrio Friso JCM Movelaria</h2>
+          <h2>{product?.title}</h2>
         </div>
         <div className="display">
           <div className="slider-product-options">
-            <Image src={"https://reidecasa.com.br/uploads/produto_fotos/3_20230331151407_rackspazionaturalleoff.jpg"} width={80} height={80} alt="" />
-            <Image src={"https://reidecasa.com.br/uploads/produto_fotos/3_20230331151407_rackspazionaturalleoff.jpg"} width={80} height={80} alt="" />
-            <Image src={"https://reidecasa.com.br/uploads/produto_fotos/3_20230331151407_rackspazionaturalleoff.jpg"} width={80} height={80} alt="" />
+            <Image
+              src={product?.images?.nodes[0].src}
+              width={50}
+              height={50}
+              quality={100}
+              alt=""
+            />
+            <Image
+              src={product?.images?.nodes[0].src}
+              width={50}
+              height={50}
+              quality={100}
+              alt=""
+            />
+            <Image
+              src={product?.images?.nodes[0].src}
+              width={50}
+              height={50}
+              quality={100}
+              alt=""
+            />
           </div>
           <div>
             <Image
-              src={"https://reidecasa.com.br/uploads/produto_fotos/20230331151407_rackspazionaturalleplatinum.jpg"}
+              src={product?.images?.nodes[0].src}
               width={512}
               height={512}
               alt=""
             />
           </div>
           <div className="side">
-            <div>
+            <div className="title">
               <p>Marca: JCM Movelaria</p>
               <p>Código no site: 1448878</p>
               <p>SKU: 1</p>
             </div>
-            <div>
+            <div className="colors">
               <p>Cor:</p>
-              <Image
-                src={"https://reidecasa.com.br/uploads/produto_fotos/3_20230331151407_rackspazionaturalleoff.jpg"}
-                width={80}
-                height={80}
-                alt=""
-              />
-              <Image
-                src={"https://reidecasa.com.br/uploads/produto_fotos/3_20230331151407_rackspazionaturalleoff.jpg"}
-                width={80}
-                height={80}
-                alt=""
-              />
-              <Image
-                src={"https://reidecasa.com.br/uploads/produto_fotos/3_20230331151407_rackspazionaturalleoff.jpg"}
-                width={80}
-                height={80}
-                alt=""
-              />
+              <div>
+                <Image
+                  src={product?.images?.nodes[0].src}
+                  width={50}
+                  height={50}
+                  alt=""
+                  quality={100}
+                />
+                <Image
+                  src={product?.images?.nodes[0].src}
+                  width={50}
+                  height={50}
+                  alt=""
+                  quality={100}
+                />
+                <Image
+                  src={product?.images?.nodes[0].src}
+                  width={50}
+                  height={50}
+                  alt=""
+                  quality={100}
+                />
+              </div>
             </div>
-            <div>
-              <p>R$ 1.200,00</p>
-              <p>R$ 840,00</p>
-              <p>8x de R$ 105,00 sem juros ou R$ 798,00 à vista no boleto ou pix</p>
+            <div className="buy">
+              <div>
+                <p>R$ {product?.priceRange?.maxVariantPrice?.amount}</p>
+                <p>R$ {product?.priceRange?.minVariantPrice?.amount}</p>
+                <p>8x de R$ 105,00 sem juros ou R$ 798,00 à vista no boleto ou pix</p>
+              </div>
               <button>Comprar</button>
             </div>
             <div>content</div>
@@ -72,7 +100,7 @@ export default function Product() {
             </div>
           </div>
         </div>
-        <div className="caption">
+        {/* <div className="caption">
           <p>Estante Home para TV até 65 Polegadas Equilíbrio Liso</p>
           <p>Dimensões:</p>
           <p>Altura: 190 cm</p>
@@ -116,9 +144,57 @@ export default function Product() {
           <p>Possui Espaço Para TV: 1600mm x 1090mm (LXA), Para TV de Até 65 Polegadas</p>
           <p>Acompanha Suporte Para TV: Sim</p>
           <p>Necessita de Montagem: Sim</p>
-        </div>
+        </div> */}
       </ProductStyle>
       <ProductSlider />
     </>
   );
 }
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: {
+          id: "8541167911189",
+        },
+      },
+    ],
+    fallback: true,
+  };
+};
+
+const PRODUCT_QUERY = gql`
+  query ($productId: ID!) {
+    product(id: $productId) {
+      images(first: 10) {
+        nodes {
+          src
+          id
+        }
+      }
+      id
+      description
+      title
+      priceRange {
+        maxVariantPrice {
+          amount
+        }
+        minVariantPrice {
+          amount
+        }
+      }
+    }
+  }
+`;
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const productId = "gid://shopify/Product/" + params.id;
+  const { data } = await client.query({
+    query: PRODUCT_QUERY,
+    variables: { productId: productId },
+  });
+  const product = data?.product || null;
+  return {
+    props: { product },
+  };
+};

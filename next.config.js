@@ -4,5 +4,4 @@ const nextConfig = {
     domains: ["reidecasa.com.br", "cdn.shopify.com"],
   },
 };
-
 module.exports = nextConfig;

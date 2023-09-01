@@ -17,7 +17,13 @@ export const ProductStyle = styled("main", {
   },
   ".display": {
     display: "flex",
+    gap: "40px",
     justifyContent: "space-between",
+    ">div": {
+      img: {
+        border: "1px solid $gray500",
+      },
+    },
   },
   ".slider-product-options": {
     display: "flex",
@@ -28,10 +34,42 @@ export const ProductStyle = styled("main", {
     width: 356,
     flexDirection: "column",
     justifyContent: "space-between",
+    ".colors": {
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px",
+      ">div": {
+        display: "flex",
+        gap: "10px"
+      },
+    },
+    ".buy": {
+      display: "flex",
+      flexDirection: "column",
+      gap: "20px",
+      ">div": {
+        "p:nth-child(1)": {
+          fontSize: "16px",
+          textDecoration: "line-through",
+        },
+        "p:nth-child(2)": {
+          fontSize: "20px",
+          fontWeight: "bold",
+        },
+      },
+      button: {
+        border: "none",
+        width: "100%",
+        height: "42px",
+        background: "$orange",
+        color: "$white",
+        cursor: "pointer",
+      },
+    },
     ">div": {
       height: "100%",
       border: "1px solid $gray500",
-      padding: "20px"
+      padding: "20px",
     },
   },
   ".caption": {

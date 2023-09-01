@@ -17,7 +17,6 @@ export default function ProductSlider({ products, description, bgcolor }: Produc
       spacing: 20,
     },
     loop: true,
-    
   });
   return (
     <ProductSliderStyle color={bgcolor == "orange" ? "orange" : "none"}>
@@ -26,7 +25,14 @@ export default function ProductSlider({ products, description, bgcolor }: Produc
         {products?.map(
           ({ node }: any) =>
             node.images.nodes[0]?.src && (
-              <ProductContainer src={node.images.nodes[0].src} maxprice={node.priceRange.maxVariantPrice.amount} minprice={node.priceRange.minVariantPrice.amount} title={node.title} key={node.id} />
+              <ProductContainer
+                id={node.id}
+                src={node.images.nodes[0].src}
+                maxprice={node.priceRange.maxVariantPrice.amount}
+                minprice={node.priceRange.minVariantPrice.amount}
+                title={node.title}
+                key={node.id}
+              />
             )
         )}
       </div>
