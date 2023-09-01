@@ -21,6 +21,7 @@ export const ProductStyle = styled("main", {
     justifyContent: "space-between",
     ">div": {
       img: {
+        objectFit: "contain",
         border: "1px solid $gray500",
       },
     },
