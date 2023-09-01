@@ -13,11 +13,14 @@ export const ProductContainerStyle = styled("div", {
   cursor: "pointer",
   background: "$white",
   img: {
-    objectFit: "contain",
+    objectFit: "cover",
     borderRadius: 16,
   },
-
-  ">div >div": {
+  ">div >div:nth-child(1)": {
+    width: 256,
+    height: 256,
+  },
+  ">div >div:nth-child(2)": {
     display: "flex",
     flexDirection: "column",
     padding: "20px",

@@ -18,7 +18,9 @@ export default function ProductContainer({ id, src, maxprice, minprice, title }:
     <Link href={`/product/${id}`}>
       <ProductContainerStyle className="keen-slider__slide number-slide1">
         <div>
-          <Image src={src} height={256} width={256} alt="" quality={100} />
+          <div>
+            <Image src={src} height={256} width={256} alt="" quality={100} />
+          </div>
           <div>
             <div className="description">
               <p>{title}</p>
